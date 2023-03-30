@@ -1,0 +1,1 @@
+- [How to Create An AI-Powered Python Web App With Flask And GPT-4 API | by Sebastian | CodingTheSmartWay | Mar, 2023 | Medium](https://medium.com/codingthesmartway-com-blog/how-to-create-an-ai-powered-python-web-app-with-flask-and-gpt-4-api-907dcffd1221)

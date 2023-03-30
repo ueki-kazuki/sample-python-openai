@@ -4,9 +4,8 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GPT-4 API Chat</title>
+    <title>GPT-3 API Chat</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -35,6 +34,7 @@
       #chat-form {
         display: flex;
         justify-content: space-between;
+        margin-top: 20px;
         margin-bottom: 20px;
       }
 
@@ -59,11 +59,27 @@
         background-color: #45a049;
       }
 
+      .inputClass {
+        border: 1px solid #ccc;
+        background-color: #666;
+        padding: 5px;
+        color: #ffffff;
+      }
+
+      .resultClass {
+        border: 1px solid #ddd;
+        background-color: #f8f8f8;
+        padding: 20px;
+        overflow-wrap: break-word;
+
+      }
+
       #result {
         border: 1px solid #ccc;
         border-radius: 5px;
-        padding: 20px;
+        padding: 0px;
         background-color: #f8f8f8;
+        min-height: 100px;
         min-height: 100px;
         overflow-wrap: break-word;
       }
@@ -71,7 +87,8 @@
   </head>
   <body>
     <div class="chat-container">
-      <h1>GPT-4 API Chat</h1>
+      <h1>GPT-3 API Chat</h1>
+      <div id="result"></div>
       <form id="chat-form">
         <input
           type="text"
@@ -80,8 +97,8 @@
           placeholder="Type your message..."
         />
         <button type="submit" id="submitBtn">Send</button>
+        <button type="button" id="resetBtn">Reset</button>
       </form>
-      <div id="result"></div>
     </div>
 
     <script>
@@ -92,19 +109,37 @@
             // Prevent the form from submitting and refreshing the page
             event.preventDefault();
 
-            let userInput = document.getElementById("user-input").value;
-            let url = `/gpt4?user_input=${encodeURIComponent(userInput)}`;
+            let form = document.getElementById("chat-form");
+            let formData = new FormData(form);
+            $('<div>', {
+                class: 'inputClass',
+                text: form.elements['user-input'].value
+            }).appendTo('#result');
 
-            fetch(url)
+            let url = '/gpt3';
+            fetch(url, {
+              method: "POST",
+              body: formData
+            })
               .then((response) => response.json())
               .then((data) => {
-                let content = data.content;
-                let resultDiv = document.getElementById("result");
-                resultDiv.innerHTML = content;
+                $('<div>', {
+                  class: 'resultClass',
+                  text: data.content
+                }).appendTo('#result');
               })
               .catch((error) => {
-                console.error("Error fetching GPT-4 response:", error);
+                console.error("Error fetching GPT-3 response:", error);
               });
+          });
+        document
+          .getElementById("resetBtn")
+          .addEventListener("click", function (event) {
+            let url = '/reset';
+
+            fetch(url).then(() => {
+              $('#result').empty();
+            });
           });
       };
     </script>
