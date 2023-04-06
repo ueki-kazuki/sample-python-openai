@@ -18,6 +18,7 @@ def index():
 @app.route('/gpt3', methods=['GET', 'POST'])
 def gpt3():
     user_input = request.args.get('user_input') if request.method == 'GET' else request.form['user_input']
+    app.logger.info('user_input: %s', user_input)
 
     if 'messages' in session:
         messages = session['messages']
@@ -25,8 +26,9 @@ def gpt3():
         messages = []
 
     messages.append({"role": "user", "content": user_input})
-
+    http_status = 200
     try:
+        # raise RateLimitError('test')
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=messages
@@ -37,8 +39,10 @@ def gpt3():
         session['messages'] = messages
     except RateLimitError:
         content = "The server is experiencing a high volume of requests. Please try again later."
+        http_status = 500
+        app.logger.exception(content)
 
-    return jsonify(content=content)
+    return jsonify(content=content), http_status
 
 @app.route('/reset', methods=['GET'])
 def reset():
