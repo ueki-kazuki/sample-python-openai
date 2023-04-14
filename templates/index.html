@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GPT-3 API Chat</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.2.2/markdown-it.min.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -84,6 +85,13 @@
         overflow-wrap: break-word;
       }
     </style>
+    <script>
+      // マークダウンの基本設定
+      const markdown_setting = window.markdownit({
+        html: true, // htmlタグを有効にする
+        breaks: true, // md内の改行を<br>に変換
+      });
+    </script>
   </head>
   <body>
     <div class="chat-container">
@@ -128,9 +136,10 @@
               return response.json();
             })
               .then((data) => {
+                const markdown_html = markdown_setting.render(data.content);
                 $('<div>', {
                   class: 'resultClass',
-                  text: data.content
+                  html: markdown_html
                 }).appendTo('#result');
               })
               .catch((error) => {
