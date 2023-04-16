@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GPT-3 API Chat</title>
+    <title>Classmethod GPT</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.2.2/markdown-it.min.js"></script>
     <style>
@@ -14,8 +14,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        margin: 0;
+        height: 100%;
+        margin: 20px;
       }
 
       .chat-container {
@@ -95,7 +95,26 @@
   </head>
   <body>
     <div class="chat-container">
-      <h1>GPT-3 API Chat</h1>
+      <h1>Classmethod GPT</h1>
+      <div>
+        <h4>オススメの問いかけ方</h4>
+        <ul>
+          <li>これはなぜだと思いますか？</li>
+          <li>これは適切だと思いますか？</li>
+          <li>◯◯について要約してください</li>
+          <li>◯◯について具体的に教えてください</li>
+          <li>以下の制約条件を考慮してアイデアを10個提案してください
+            <ul>
+              <li>重要なキーワードを取りこぼさない</li>
+              <li>文字数は300文字程度</li>
+              <li>小学生にもわかりやすく</li>
+              <li>文章は簡潔に</li>
+            </ul></li>
+          <li>次の文章をカドの立たない表現に言い換えてください</li>
+          <li>サンプルを出力してください</li>
+          <li>あなたはスティーブ・ジョブズとしてふるまって、私の相談に答えてください。</li>
+        </ul>
+      </div>
       <div id="result"></div>
       <form id="chat-form">
         <input
@@ -123,6 +142,7 @@
                 class: 'inputClass',
                 text: form.elements['user-input'].value
             }).appendTo('#result');
+            document.getElementById("user-input").value = '';
 
             let url = '/gpt3';
             fetch(url, {
@@ -149,6 +169,7 @@
         document
           .getElementById("resetBtn")
           .addEventListener("click", function (event) {
+            document.getElementById("user-input").value = '';
             let url = '/reset';
 
             fetch(url).then(() => {
