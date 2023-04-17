@@ -1,0 +1,21 @@
+version: 1.0
+runtime: python3 
+build:
+  commands:
+    build:        
+      - pip install pipenv
+      - pipenv install
+
+run:
+  command: pipenv run flask run --host=0.0.0.0
+  network: 
+    port: 5000
+  env:
+    - name: FLASK_APP
+      value: "server"
+    - name: FLASK_ENV
+      value: "development"
+    - name: OPENAI_ORGANIZATION
+      value-from: arn:aws:ssm:ap-northeast-1:285514679693:parameter/dev/mygpt/openai_organization
+    - name: OPENAI_API_KEY	
+      value-from: arn:aws:ssm:ap-northeast-1:285514679693:parameter/dev/mygpt/openai_api_key
