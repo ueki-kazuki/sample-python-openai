@@ -15,6 +15,7 @@ run:
       value: "server"
     - name: FLASK_ENV
       value: "development"
+  secrets:
     - name: OPENAI_ORGANIZATION
       value-from: arn:aws:ssm:ap-northeast-1:285514679693:parameter/dev/mygpt/openai_organization
     - name: OPENAI_API_KEY	
