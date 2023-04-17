@@ -12,7 +12,7 @@ run:
     port: 5000
   env:
     - name: FLASK_APP
-      value: "server"
+      value: "app"
     - name: FLASK_ENV
       value: "development"
   secrets:
