@@ -13,8 +13,8 @@ run:
   env:
     - name: FLASK_APP
       value: "app"
-    - name: FLASK_ENV
-      value: "development"
+    - name: FLASK_DEBUG
+      value: "1"
   secrets:
     - name: OPENAI_ORGANIZATION
       value-from: arn:aws:ssm:ap-northeast-1:285514679693:parameter/dev/mygpt/openai_organization
